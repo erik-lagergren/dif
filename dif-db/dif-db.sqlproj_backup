@@ -52,41 +52,20 @@
     <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
     <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
   </PropertyGroup>
-  <Import Condition="'$(NetCoreBuild)' != 'true' AND '$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
-  <Import Condition="'$(NetCoreBuild)' != 'true' AND '$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="log\" />
     <Folder Include="log\Tables\" />
     <Folder Include="Security\" />
-    <Folder Include="test\" />
-    <Folder Include="test\Tables\" />
-    <Folder Include="log\Stored Procedures\" />
-    <Folder Include="admin\" />
-    <Folder Include="admin\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="log\Tables\loadlog.sql" />
-    <Build Include="log\write_log.sql" />
     <Build Include="Security\test.sql" />
     <Build Include="Security\stage.sql" />
     <Build Include="Security\log.sql" />
     <Build Include="Security\admin.sql" />
-    <Build Include="test\Tables\s_datax.sql" />
-    <Build Include="test\Tables\datax.sql" />
-    <Build Include="log\Stored Procedures\p_write_loadlog.sql" />
-    <Build Include="log\Stored Procedures\p_update_loadlog.sql" />
-    <Build Include="admin\Stored Procedures\p_load_data.sql" />
-    <Build Include="admin\Stored Procedures\p_get_column_list.sql" />
+    <Build Include="Security\adm.sql" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Condition="'$(NetCoreBuild)' == 'true'">
-      <Version>1.0.0</Version>
-      <PrivateAssets>All</PrivateAssets>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(NETCoreTargetsPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" Condition="'$(NetCoreBuild)' == 'true'" />
-  <Target Name="BeforeBuild">
-    <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />
-  </Target>
 </Project>
